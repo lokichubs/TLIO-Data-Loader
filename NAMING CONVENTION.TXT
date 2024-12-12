@@ -1,0 +1,13 @@
+GROUND TRUTH NAMING CONVENTION:
+    Ensure to name any of the ground trust data following the structure below
+        "Train_data_##.csv"
+
+    Also ensure that the MOCAP data is saved as a .csv file
+
+IMU NAMING CONVENTION:
+    The IMU data pipeline generates a folder from the software. Ensure to name the resulting folder as follows
+        "Train_Data_##_IMU"
+
+    The folder will contain n (the number of IMU's) .csv, .wplay, and 1 Matlab folder. Double check to ensure
+    you have three separate csv files each IMU - the IMU pipeline default is to combine all the active IMU's into
+    one csv file
