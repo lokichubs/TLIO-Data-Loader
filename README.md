@@ -44,7 +44,7 @@ The Extended Kalman Filter in the TLIO requires an IMU frequency of 200 hz. The 
 
 To carry out this operation, run the file "interpolateIMU.py". To verify the plots run the .ipynb file instead
 
-![Sample result from .ipynb file for IMU](assets/IMU_interpolated_example)
+![Sample result from .ipynb file for IMU](assets/IMU_interpolated_example.png)
 
 
 ## Data Time Alignment
