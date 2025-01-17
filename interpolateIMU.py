@@ -5,12 +5,12 @@ import shutil
 import os
 import scipy
 
-formatted_data_folder = 'FORMATTED_DATA_V3_ALIGNED'
+formatted_data_folder = 'FORMATTED_DATA'
 imu_file = 'imu_samples_0.csv'
 imu_json = 'calibration.json'
 mocap_file = 'imu0_resampled.npy'
 mocap_json = 'imu0_resampled_description.json'
-interpolated_data_folder = 'FORMATTED_DATA_V3_ALIGNED_INTERPOLATED'
+interpolated_data_folder = 'FORMATTED_DATA_INTERPOLATED'
 
 # Interpolation Parameters
 target_frequency = 200  # in Hz
@@ -80,67 +80,12 @@ for root, dirs, files in os.walk(formatted_data_folder):
         accel_y_imu_interpolated = imu_data_interpolated.iloc[:, 6]  # (interpolated acceleration y-axis)
         accel_z_imu_interpolated = imu_data_interpolated.iloc[:, 7] - 9.81  # (interpolated acceleration z-axis)
 
-        fig, axs = plt.subplots(3, 2, figsize=(12, 10))
-
-        # Plot the first 30 seconds
-        axs[0, 0].plot(time_imu_original_modified, accel_x_imu_original, label='Acceleration X (Original IMU)', color='orange', alpha=0.7)
-        axs[0, 0].plot(time_imu_interpolated_modified, accel_x_imu_interpolated, label='Acceleration X (Interpolated IMU)', color='red')
-        axs[0, 0].set_title('Acceleration X Data (First 30 seconds)')
-        axs[0, 0].set_xlabel('Timestamp [s]')
-        axs[0, 0].set_ylabel('Acceleration [m/s^2]')
-        axs[0, 0].set_xlim(0, 30)
-        axs[0, 0].legend()
-
-        axs[1, 0].plot(time_imu_original_modified, accel_y_imu_original, label='Acceleration Y (Original IMU)', color='blue', alpha=0.7)
-        axs[1, 0].plot(time_imu_interpolated_modified, accel_y_imu_interpolated, label='Acceleration Y (Interpolated IMU)', color='green')
-        axs[1, 0].set_title('Acceleration Y Data (First 30 seconds)')
-        axs[1, 0].set_xlabel('Timestamp [s]')
-        axs[1, 0].set_ylabel('Acceleration [m/s^2]')
-        axs[1, 0].set_xlim(0, 30)
-        axs[1, 0].legend()
-
-        axs[2, 0].plot(time_imu_original_modified, accel_z_imu_original, label='Acceleration Z (Original IMU)', color='purple', alpha=0.7)
-        axs[2, 0].plot(time_imu_interpolated_modified, accel_z_imu_interpolated, label='Acceleration Z (Interpolated IMU)', color='pink')
-        axs[2, 0].set_title('Acceleration Z Data (First 30 seconds)')
-        axs[2, 0].set_xlabel('Timestamp [s]')
-        axs[2, 0].set_ylabel('Acceleration [m/s^2]')
-        axs[2, 0].set_xlim(0, 30)
-        axs[2, 0].legend()
-
-        # Plot the last 30 seconds
-        axs[0, 1].plot(time_imu_original_modified, accel_x_imu_original, label='Acceleration X (Original IMU)', color='orange', alpha=0.7)
-        axs[0, 1].plot(time_imu_interpolated_modified, accel_x_imu_interpolated, label='Acceleration X (Interpolated IMU)', color='red')
-        axs[0, 1].set_title('Acceleration X Data (Last 30 seconds)')
-        axs[0, 1].set_xlabel('Timestamp [s]')
-        axs[0, 1].set_ylabel('Acceleration [m/s^2]')
-        axs[0, 1].set_xlim(max(time_imu_interpolated_modified) - 30, max(time_imu_interpolated_modified))
-        axs[0, 1].legend()
-
-        axs[1, 1].plot(time_imu_original_modified, accel_y_imu_original, label='Acceleration Y (Original IMU)', color='blue', alpha=0.7)
-        axs[1, 1].plot(time_imu_interpolated_modified, accel_y_imu_interpolated, label='Acceleration Y (Interpolated IMU)', color='green')
-        axs[1, 1].set_title('Acceleration Y Data (Last 30 seconds)')
-        axs[1, 1].set_xlabel('Timestamp [s]')
-        axs[1, 1].set_ylabel('Acceleration [m/s^2]')
-        axs[1, 1].set_xlim(max(time_imu_interpolated_modified) - 30, max(time_imu_interpolated_modified))
-        axs[1, 1].legend()
-
-        axs[2, 1].plot(time_imu_original_modified, accel_z_imu_original, label='Acceleration Z (Original IMU)', color='purple', alpha=0.7)
-        axs[2, 1].plot(time_imu_interpolated_modified, accel_z_imu_interpolated, label='Acceleration Z (Interpolated IMU)', color='pink')
-        axs[2, 1].set_title('Acceleration Z Data (Last 30 seconds)')
-        axs[2, 1].set_xlabel('Timestamp [s]')
-        axs[2, 1].set_ylabel('Acceleration [m/s^2]')
-        axs[2, 1].set_xlim(max(time_imu_interpolated_modified) - 30, max(time_imu_interpolated_modified))
-        axs[2, 1].legend()
-
-        # print(f"Creating Interpolated IMU CSV file for {interpolated_data_folder}/{dir}")
-        # csv_file = "imu_samples_0.csv"
-        # csv_path = os.path.join(interpolated_data_folder,dir,csv_file)
-        # print(csv_path)
-        # imu_data_interpolated.to_csv(csv_path, index=False)  
+        print(f"Creating Interpolated IMU CSV file for {interpolated_data_folder}/{dir}")
+        csv_file = "imu_samples_0.csv"
+        csv_path = os.path.join(interpolated_data_folder,dir,csv_file)
+        print(csv_path)
+        imu_data_interpolated.to_csv(csv_path, index=False)  
 
 
-        # Adjust layout and show the plot
-        plt.tight_layout()
-        plt.show()
 
 

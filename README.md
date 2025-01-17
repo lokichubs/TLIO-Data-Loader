@@ -34,24 +34,21 @@ Run the "groundTruthFormat.py" to convert the MOCAP to the TLIO format.If you wa
 
 It is important to note that the ground truth data processing has a smoothing filter applied. Please do go and alter this as per the application it is intended for. This can be done by increasing or decreasing the magnitude of the variable "window_size" in "groundTruthFormat.py"
 
-Sample result from .ipynb file for MOCAP:
-
+![Sample result from .ipynb file for MOCAP:](assets/MOCAP_formatted_example.png)
 
 ## IMU Data Transform
-Run the "imuFormat.py" to convert the IMU data to the TLIO format.If you want to verify the plots run the ipynb file instead
-
-Sample result from .ipynb file for IMU:
+Run the "imuFormat.py" to convert the IMU data to the TLIO format
 
 ## IMU Interpolation
 The Extended Kalman Filter in the TLIO requires an IMU frequency of 200 hz. The IMU interpolation code ensures that this holds true. The code is helpful especially when IMU's don't have set frequencies or lower frequencies
 
 To carry out this operation, run the file "interpolateIMU.py". To verify the plots run the .ipynb file instead
 
-Sample result from .ipynb file for IMU
+![Sample result from .ipynb file for IMU](assets/IMU_interpolated_example)
+
 
 ## Data Time Alignment
 The IMU and ground truth data are often time unaligned due to when the button to start recording is pressed. The starting and ending times need to be chosen through an interactive graph
-
 
 To match the starting and ending times, run "matchTimeV2.py"
 1) A 3x2 plot will show the acceleration in all three directions for the first and last 10 seconds for each data set

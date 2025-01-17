@@ -89,7 +89,7 @@ def adjust_repeated_timestamps(df):
 
 #Key Folders where data is stored
 imu_folder = 'IMU_11_8'
-formatted_data_folder = 'FORMATTED_DATA_V3_ALIGNED'
+formatted_data_folder = 'FORMATTED_DATA'
 
 if not os.path.exists(formatted_data_folder):
             os.makedirs(formatted_data_folder)

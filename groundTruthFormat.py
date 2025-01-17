@@ -1,17 +1,11 @@
 #Ensure to run rename current first
 import os
 import pandas as pd
-from datetime import datetime
 import math
 import re
-import json
 import numpy as np
-from scipy.signal import savgol_filter
 from scipy.spatial.transform import Rotation
 import math
-import matplotlib.pyplot as plt
-import time
-from scipy.ndimage import gaussian_filter
 
 
 ## Function that converts euler angles to quaternions
@@ -24,7 +18,7 @@ def euler_to_quaternion(row):
 def save_numpy_file(data_frame, directory, filename):
     np.save(f"{directory}/{filename}.npy", data_frame)
 
-formatted_data_folder = 'FORMATTED_DATA_V3'
+formatted_data_folder = 'FORMATTED_DATA'
 ground_truth_folder = 'GT_11_8'
 sample_dir = 'SAMPLE_RESULT'
 freq_VICON = 100
@@ -101,176 +95,6 @@ for gt_file in os.listdir(ground_truth_folder):
             # Applys euler to quaternion conversion
             gt_qx_qy_qz = gt_rpy.apply(euler_to_quaternion, axis=1)
             gt_qx_qy_qz.columns = ['qX', 'qY', 'qZ', 'qW'] 
-
-            
-            # Plots for verifying whether smoothing and derivatives seem accurate.
-            # print(f"Plot for {base_names[i]} :")
-            # fig, axs = plt.subplots(2, 3, figsize=(15, 10), sharex=True)
-            # time_interval = 25
-            # del_lim = 0.005
-            # # Position plots
-            # axs[0, 0].plot(gt_time_sec, gt_xyz.iloc[:, 0], label='X Unsmoothed')
-            # axs[0, 0].plot(gt_time_sec, gt_xyz_smooth.iloc[:, 0], label='X Smoothed')
-            # axs[0, 0].set_title('X Position (m)')
-            # axs[0, 0].set_ylabel('Value (m)')
-            # axs[0, 0].legend()
-            # axs[0, 0].set_xlim(0, time_interval)  # Plot only the first 25 seconds
-            # y_max = max(gt_xyz.iloc[:, 0].max(), gt_xyz_smooth.iloc[:, 0].max()) + del_lim
-            # y_min = min(gt_xyz.iloc[:, 0].min(), gt_xyz_smooth.iloc[:, 0].min()) - del_lim
-            # axs[0, 0].set_ylim(y_min, y_max)  # Adjust y-limits dynamically
-
-            # axs[0, 1].plot(gt_time_sec, gt_xyz.iloc[:, 1], label='Y Unsmoothed')
-            # axs[0, 1].plot(gt_time_sec, gt_xyz_smooth.iloc[:, 1], label='Y Smoothed')
-            # axs[0, 1].set_title('Y Position (m)')
-            # axs[0, 1].set_ylabel('Value (m)')
-            # axs[0, 1].legend()
-            # axs[0, 1].set_xlim(0, time_interval)  # Plot only the first 25 seconds
-            # y_max = max(gt_xyz.iloc[:, 1].max(), gt_xyz_smooth.iloc[:, 1].max()) + del_lim
-            # y_min = min(gt_xyz.iloc[:, 1].min(), gt_xyz_smooth.iloc[:, 1].min()) - del_lim
-            # axs[0, 1].set_ylim(y_min, y_max)  # Adjust y-limits dynamically
-
-            # axs[0, 2].plot(gt_time_sec, gt_xyz.iloc[:, 2], label='Z Unsmoothed')
-            # axs[0, 2].plot(gt_time_sec, gt_xyz_smooth.iloc[:, 2], label='Z Smoothed')
-            # axs[0, 2].set_title('Z Position (m)')
-            # axs[0, 2].set_ylabel('Value (m)')
-            # axs[0, 2].legend()
-            # axs[0, 2].set_xlim(0, time_interval)  # Plot only the first 25 seconds
-            # y_max = max(gt_xyz.iloc[:, 2].max(), gt_xyz_smooth.iloc[:, 2].max()) + del_lim
-            # y_min = min(gt_xyz.iloc[:, 2].min(), gt_xyz_smooth.iloc[:, 2].min()) - del_lim
-            # axs[0, 2].set_ylim(y_min, y_max)  # Adjust y-limits dynamically
-
-            # # Euler angle plots
-            # axs[1, 0].plot(gt_time_sec, gt_rpy.iloc[:, 0], label='RX Unsmoothed')
-            # axs[1, 0].plot(gt_time_sec, gt_rpy_smooth.iloc[:, 0], label='RX Smoothed')
-            # axs[1, 0].set_title('RX Euler Angle (rads)')
-            # axs[1, 0].set_ylabel('Value (rads)')
-            # axs[1, 0].legend()
-            # axs[1, 0].set_xlim(0, time_interval)  # Plot only the first 25 seconds
-            # y_max = max(gt_rpy.iloc[:, 0].max(), gt_rpy_smooth.iloc[:, 0].max()) + del_lim
-            # y_min = min(gt_rpy.iloc[:, 0].min(), gt_rpy_smooth.iloc[:, 0].min()) - del_lim
-            # axs[1, 0].set_ylim(y_min, y_max)  # Adjust y-limits dynamically
-
-            # axs[1, 1].plot(gt_time_sec, gt_rpy.iloc[:, 1], label='RY Unsmoothed')
-            # axs[1, 1].plot(gt_time_sec, gt_rpy_smooth.iloc[:, 1], label='RY Smoothed')
-            # axs[1, 1].set_title('RY Euler Angle (rads)')
-            # axs[1, 1].set_ylabel('Value (rads)')
-            # axs[1, 1].legend()
-            # axs[1, 1].set_xlim(0, time_interval)  # Plot only the first 25 seconds
-            # y_max = max(gt_rpy.iloc[:, 1].max(), gt_rpy_smooth.iloc[:, 1].max()) + del_lim
-            # y_min = min(gt_rpy.iloc[:, 1].min(), gt_rpy_smooth.iloc[:, 1].min()) - del_lim
-            # axs[1, 1].set_ylim(y_min, y_max)  # Adjust y-limits dynamically
-
-            # axs[1, 2].plot(gt_time_sec, gt_rpy.iloc[:, 2], label='RZ Unsmoothed')
-            # axs[1, 2].plot(gt_time_sec, gt_rpy_smooth.iloc[:, 2], label='RZ Smoothed')
-            # axs[1, 2].set_title('RZ Euler Angle (rads)')
-            # axs[1, 2].set_ylabel('Value (rads)')
-            # axs[1, 2].legend()
-            # axs[1, 2].set_xlim(0, time_interval)  # Plot only the first 25 seconds
-            # y_max = max(gt_rpy.iloc[:, 2].max(), gt_rpy_smooth.iloc[:, 2].max()) + del_lim
-            # y_min = min(gt_rpy.iloc[:, 2].min(), gt_rpy_smooth.iloc[:, 2].min()) - del_lim
-            # axs[1, 2].set_ylim(y_min, y_max)  # Adjust y-limits dynamically
-
-
-
-            # fig2, axs2 = plt.subplots(3, 3, figsize=(15, 10), sharex=True)
-            # time_interval = 25
-            # del_lim = 0.005
-
-            # # Position plots
-            # axs2[0, 0].plot(gt_time_sec, gt_xyz.iloc[:, 0], label='X Unsmoothed')
-            # axs2[0, 0].plot(gt_time_sec, gt_xyz_smooth.iloc[:, 0], label='X Smoothed')
-            # axs2[0, 0].set_title('X Position (m)')
-            # axs2[0, 0].set_ylabel('Value (m)')
-            # axs2[0, 0].legend()
-            # axs2[0, 0].set_xlim(0, time_interval)  # Plot only the first 25 seconds
-            # y_max = max(gt_xyz.iloc[:, 0].max(), gt_xyz_smooth.iloc[:, 0].max()) + del_lim
-            # y_min = min(gt_xyz.iloc[:, 0].min(), gt_xyz_smooth.iloc[:, 0].min()) - del_lim
-            # axs2[0, 0].set_ylim(y_min, y_max)  # Adjust y-limits dynamically
-
-            # axs2[0, 1].plot(gt_time_sec, gt_xyz.iloc[:, 1], label='Y Unsmoothed')
-            # axs2[0, 1].plot(gt_time_sec, gt_xyz_smooth.iloc[:, 1], label='Y Smoothed')
-            # axs2[0, 1].set_title('Y Position (m)')
-            # axs2[0, 1].set_ylabel('Value (m)')
-            # axs2[0, 1].legend()
-            # axs2[0, 1].set_xlim(0, time_interval)  # Plot only the first 25 seconds
-            # y_max = max(gt_xyz.iloc[:, 1].max(), gt_xyz_smooth.iloc[:, 1].max()) + del_lim
-            # y_min = min(gt_xyz.iloc[:, 1].min(), gt_xyz_smooth.iloc[:, 1].min()) - del_lim
-            # axs2[0, 1].set_ylim(y_min, y_max)  # Adjust y-limits dynamically
-
-            # axs2[0, 2].plot(gt_time_sec, gt_xyz.iloc[:, 2], label='Z Unsmoothed')
-            # axs2[0, 2].plot(gt_time_sec, gt_xyz_smooth.iloc[:, 2], label='Z Smoothed')
-            # axs2[0, 2].set_title('Z Position (m)')
-            # axs2[0, 2].set_ylabel('Value (m)')
-            # axs2[0, 2].legend()
-            # axs2[0, 2].set_xlim(0, time_interval)  # Plot only the first 25 seconds
-            # y_max = max(gt_xyz.iloc[:, 2].max(), gt_xyz_smooth.iloc[:, 2].max()) + del_lim
-            # y_min = min(gt_xyz.iloc[:, 2].min(), gt_xyz_smooth.iloc[:, 2].min()) - del_lim
-            # axs2[0, 2].set_ylim(y_min, y_max)  # Adjust y-limits dynamically
-
-            # # Velocity plots
-            # axs2[1, 0].plot(gt_time_sec, gt_vx_vy_vz.iloc[:, 0], label='X Unsmoothed')
-            # axs2[1, 0].plot(gt_time_sec, gt_vx_vy_vz_smooth.iloc[:, 0], label='X Smoothed')
-            # axs2[1, 0].set_title('X Velocity (m/s)')
-            # axs2[1, 0].set_ylabel('Value (m/s)')
-            # axs2[1, 0].legend()
-            # axs2[1, 0].set_xlim(0, time_interval)  # Plot only the first 25 seconds
-            # y_max = max(gt_vx_vy_vz.iloc[:, 0].max(), gt_vx_vy_vz_smooth.iloc[:, 0].max()) + del_lim
-            # y_min = min(gt_vx_vy_vz.iloc[:, 0].min(), gt_vx_vy_vz_smooth.iloc[:, 0].min()) - del_lim
-            # axs2[1, 0].set_ylim(y_min, y_max)  # Adjust y-limits dynamically
-
-            # axs2[1, 1].plot(gt_time_sec, gt_vx_vy_vz.iloc[:, 1], label='Y Unsmoothed')
-            # axs2[1, 1].plot(gt_time_sec, gt_vx_vy_vz_smooth.iloc[:, 1], label='Y Smoothed')
-            # axs2[1, 1].set_title('Y Velocity (m/s)')
-            # axs2[1, 1].set_ylabel('Value (m/s)')
-            # axs2[1, 1].legend()
-            # axs2[1, 1].set_xlim(0, time_interval)  # Plot only the first 25 seconds
-            # y_max = max(gt_vx_vy_vz.iloc[:, 1].max(), gt_vx_vy_vz_smooth.iloc[:, 1].max()) + del_lim
-            # y_min = min(gt_vx_vy_vz.iloc[:, 1].min(), gt_vx_vy_vz_smooth.iloc[:, 1].min()) - del_lim
-            # axs2[1, 1].set_ylim(y_min, y_max)  # Adjust y-limits dynamically
-
-            # axs2[1, 2].plot(gt_time_sec, gt_vx_vy_vz.iloc[:, 2], label='Z Unsmoothed')
-            # axs2[1, 2].plot(gt_time_sec, gt_vx_vy_vz_smooth.iloc[:, 2], label='Z Smoothed')
-            # axs2[1, 2].set_title('Z Velocity (m/s)')
-            # axs2[1, 2].set_ylabel('Value (m/s)')
-            # axs2[1, 2].legend()
-            # axs2[1, 2].set_xlim(0, time_interval)  # Plot only the first 25 seconds
-            # y_max = max(gt_vx_vy_vz.iloc[:, 2].max(), gt_vx_vy_vz_smooth.iloc[:, 2].max()) + del_lim
-            # y_min = min(gt_vx_vy_vz.iloc[:, 2].min(), gt_vx_vy_vz_smooth.iloc[:, 2].min()) - del_lim
-            # axs2[1, 2].set_ylim(y_min, y_max)  # Adjust y-limits dynamically
-
-            # # Acceleration plots
-            # axs2[2, 0].plot(gt_time_sec, gt_ax_ay_az.iloc[:, 0], label='X Unsmoothed')
-            # axs2[2, 0].set_title('X Acceleration (m/s^2)')
-            # axs2[2, 0].set_ylabel('Value (m/s^2)')
-            # axs2[2, 0].legend()
-            # axs2[2, 0].set_xlim(0, time_interval)  # Plot only the first 25 seconds
-            # y_max = gt_ax_ay_az.iloc[:, 0].max() + del_lim
-            # y_min = gt_ax_ay_az.iloc[:, 0].min() - del_lim
-            # axs2[2, 0].set_ylim(y_min, y_max)  # Adjust y-limits dynamically
-
-            # axs2[2, 1].plot(gt_time_sec, gt_ax_ay_az.iloc[:,  1], label='Y Unsmoothed')
-            # axs2[2, 1].set_title('Y Acceleration (m/s^2)')
-            # axs2[2, 1].set_ylabel('Value (m/s^2)')
-            # axs2[2, 1].legend()
-            # axs2[2, 1].set_xlim(0, time_interval)  # Plot only the first 25 seconds
-            # y_max = gt_ax_ay_az.iloc[:, 1].max() + del_lim
-            # y_min = gt_ax_ay_az.iloc[:, 1].min() - del_lim
-            # axs2[2, 1].set_ylim(y_min, y_max)  # Adjust y-limits dynamically
-
-            # axs2[2, 2].plot(gt_time_sec, gt_ax_ay_az.iloc[:, 2], label='Z Unsmoothed')
-            # axs2[2, 2].set_title('Z Acceleration (m/s^2)')
-            # axs2[2, 2].set_ylabel('Value (m/s^2)')
-            # axs2[2, 2].legend()
-            # axs2[2, 2].set_xlim(0, time_interval)  # Plot only the first 25 seconds
-            # y_max = gt_ax_ay_az.iloc[:, 2].max() + del_lim
-            # y_min = gt_ax_ay_az.iloc[:, 2].min() - del_lim
-            # axs2[2, 2].set_ylim(y_min, y_max)  # Adjust y-limits dynamically
-
-
-            # plt.tight_layout()
-            # plt.show()
-
-
 
             # Creates new data frame with the final formatted data
             gt_formatted = pd.concat([
