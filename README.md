@@ -1,6 +1,6 @@
 # TLIO Data Loader for IMU and MOCAP
 
-This github repo contains the code for a data loader built to format the IMU and MOCAP data to be usable in the a href="https://github.com/CathIAS/TLIO">TLIO</a> model.
+This github repo contains the code for a data loader built to format the IMU and MOCAP data to be usable in the <a href="https://github.com/CathIAS/TLIO">TLIO</a> model.
 
 [Naming Convention](naming-convention)
 [MOCAP Data Transform](#mocap-data-transform)  
@@ -11,14 +11,12 @@ This github repo contains the code for a data loader built to format the IMU and
 
 ## Naming Convention
 ### Ground Truth naming Convention
-Ensure to name any of the ground trust data following the structure below
-    "Train_data_##.csv"
+Ensure to name all of the ground truth data following the structure : "Train_data_##.csv" (where the ## is the trial number)
 
 Also ensure that the MOCAP data is saved as a .csv file
 
 ### IMU Naming convention:
-The IMU data pipeline generates a folder from the software. Ensure to name the resulting folder as follows
-    "Train_Data_##_IMU"
+The IMU data pipeline generates a folder from the software. Ensure to name the resulting folder as follows :"Train_Data_##_IMU" (where ## is the trial number)
 
 The folder will contain n (the number of IMU's) .csv, .wplay, and 1 Matlab folder. Double check to ensure
 you have three separate csv files each IMU - the IMU pipeline default is to combine all the active IMU's into
