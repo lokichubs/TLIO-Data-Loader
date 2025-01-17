@@ -65,7 +65,11 @@ Before and After time alignment for a dataset:
 
 Run the "verifyAlignment.ipynb" file to double check the alignment for all the files.
 
-If you want to go back and change any alignment open the "matchTimeV2.py" file and follow these steps.Change "folder_count" to the trial number that you want to change + 2 instead of  ">=0".Keep pressing "y" until a plot pops up.Re-do the alignment for the dataset you want and then press "y" when its satisfactory
+If you want to go back and change any alignment open the "matchTimeV2.py" file and follow these steps.
+
+1) Change "folder_count" to the trial number that you want to change + 2 instead of  ">=0".
+2) Keep pressing "y" until a plot pops up.
+3) Re-do the alignment for the dataset you want and then press "y" when its satisfactory
 Press "Ctrl+C" and press enter to terminate the script
 
 ## Create Calibration Files
