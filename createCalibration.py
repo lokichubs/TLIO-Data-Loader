@@ -84,7 +84,7 @@ def create_imu_calibration_file(file_directory, file_name, accel_bias, gyro_bias
     with open(file_path, 'w') as f:
         json.dump(imu_calibration_data, f, indent=4)
 
-interpolated_data_folder = "FORMATTED_DATA_V3_ALIGNED_INTERPOLATED"
+aligned_data_folder = "FORMATTED_DATA_ALIGNED"
 imu_file = 'imu_samples_0.csv'
 imu_json = 'calibration.json'
 mocap_file = 'imu0_resampled.npy'
@@ -97,7 +97,7 @@ gyro_bias = pd.DataFrame(np.nan, index=range(1), columns=range(3))
 specific_file = 0
 
 folder_count = 1
-for root, dirs, files in os.walk(interpolated_data_folder):
+for root, dirs, files in os.walk(aligned_data_folder):
     for dir in dirs:
         folder_count += 1
         if folder_count >= specific_file :

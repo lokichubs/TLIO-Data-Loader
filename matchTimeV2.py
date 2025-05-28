@@ -3,10 +3,10 @@ import pandas as pd
 import os
 import json
 import matplotlib.pyplot as plt
-import pygetwindow as gw
+# import pygetwindow as gw
 import re
 
-formatted_data_folder = 'FORMATTED_DATA_V3_ALIGNED'
+formatted_data_folder = 'FORMATTED_DATA_ALIGNED'
 imu_file = 'imu_samples_0.csv'
 mocap_file = 'imu0_resampled.npy'
 

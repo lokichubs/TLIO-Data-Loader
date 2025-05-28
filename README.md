@@ -30,25 +30,25 @@ Run the "renameCurrent.py" to properly assign each IMU its name (not the default
 You may have to go into the code and change the names based on the experiment
 
 ## MOCAP Data Transform
-Run the "groundTruthFormat.py" to convert the MOCAP to the TLIO format.If you want to verify the plots run the ipynb file instead
+Run the "groundTruthFormat.py" to convert the MOCAP to the TLIO format.If you want to verify the plots run the ipynb file instead. Either way a folder named "FORMATTED_DATA" will be created - still not completed
 
 It is important to note that the ground truth data processing has a smoothing filter applied. Please do go and alter this as per the application it is intended for. This can be done by increasing or decreasing the magnitude of the variable "window_size" in "groundTruthFormat.py". An example can be seen below
 
 ![Sample result from .ipynb file for MOCAP:](assets/MOCAP_formatted_example.png)
 
 ## IMU Data Transform
-Run the "imuFormat.py" to convert the IMU data to the TLIO format
+Run the "imuFormat.py" to convert the IMU data to the TLIO format. the folder "FORMATTED_DATA" is now complete
 
 ## IMU Interpolation
 The Extended Kalman Filter in the TLIO requires an IMU frequency of 200 hz. The IMU interpolation code ensures that this holds true. The code is helpful especially when IMU's don't have set frequencies or lower frequencies
 
-To carry out this operation, run the file "interpolateIMU.py". To verify the plots run the .ipynb file instead. An example can be seen below.
+To carry out this operation, run the file "interpolateIMU.py". To verify the plots run the .ipynb file instead. An example can be seen below.A folder named "FORMATTED_DATA_INTERPOLATED" will be created
 
 ![Sample result from .ipynb file for IMU](assets/IMU_interpolated_example.png)
 
 
 ## Data Time Alignment
-The IMU and ground truth data are often time unaligned due to when the button to start recording is pressed. The starting and ending times need to be chosen through an interactive graph
+The IMU and ground truth data are often time unaligned due to when the button to start recording is pressed. The starting and ending times need to be chosen through an interactive graph. Prior to running any code. Copy and paste the "FORMATTED_DATA_INTERPOLATED" and rename it to "FORMATTED_DATA_ALIGNED"
 
 To match the starting and ending times, run "matchTimeV2.py"
 1) A 3x2 plot will show the acceleration in all three directions for the first and last 10 seconds for each data set
